@@ -62,7 +62,7 @@ namespace XFileManager
             bool isVisible = false; //Переменная "помошник" для корректной работы отображения ранее написанных команд
             Properties properties = Initialize();
 
-            bool isNull = Directory.GetCurrentDirectory() == null ? true : false; //Проверка на null текущей дериктории
+            bool isNull = path == null ? true : false; //Проверка на null текущей дериктории
 
 
             int amountOfPage = 0;
@@ -140,7 +140,20 @@ namespace XFileManager
             if (command == "exit")
             {
                 Environment.Exit(0);
-            }
+            }//Команда выхода из программы
+            if (command == "back")
+            {
+                try
+                {
+                    GoBack(properties);
+                }
+                catch 
+                {
+                    ClearMessageBox();
+                    Console.Write("Невозможно пройти назад, нажмите Enter для повторного ввода");
+                    return;
+                }
+            }//Команда которая возвращает вас на уровень выше
 
             string CorD;//Из за сплита с разделением через C: и D: необходимо восстановить название диска
 
@@ -380,6 +393,7 @@ namespace XFileManager
             Directory.Delete(path, true);
             string parent = Directory.GetParent(path).ToString();
 
+            SerializeLastPath(parent);
             RefreshFilesAndDirectories();
 
             MakeTree(parent);
@@ -566,5 +580,15 @@ namespace XFileManager
             }
             return amountOfPage;
         }//Подсчёт количества страниц
+        public static void GoBack(Properties properties)//Метод по возвращению на уровень выше
+        {
+            string parent = Directory.GetParent(properties.LastPath).ToString();
+
+            SerializeLastPath(parent);
+            RefreshFilesAndDirectories();
+
+            MakeTree(parent);
+            Menu(parent);
+        }
     }
 }
