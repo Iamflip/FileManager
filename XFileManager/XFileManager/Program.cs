@@ -71,6 +71,7 @@ namespace XFileManager
             {
                 amountOfPage = CalculateAmountOfPage(properties);
                 DrawTree(numOfPage, amountOfPage, path);
+                InfoDirectory(properties, path);
             }
 
             Console.SetCursorPosition(properties.xPlace, properties.WritePlace);
@@ -276,6 +277,7 @@ namespace XFileManager
         public static void Draw()
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             HorizontalLine TopLine = new HorizontalLine(0, 198, 0, '*');
             HorizontalLine PathLine = new HorizontalLine(0, 198, 2, '*');
             HorizontalLine InfoLine1 = new HorizontalLine(0, 198, 45, '*');
@@ -283,6 +285,7 @@ namespace XFileManager
             HorizontalLine BotLine = new HorizontalLine(0, 198, 59, '*');
             VerticalLine LeftLine = new VerticalLine(0, 59, 0, '*');
             VerticalLine RightLine = new VerticalLine(0, 60, 198, '*');
+            Console.ForegroundColor = ConsoleColor.Cyan;
         }//Отрисовка Линий
         private static void DrawTree(int numOfPage, int amountOfPage, string path)
         {
